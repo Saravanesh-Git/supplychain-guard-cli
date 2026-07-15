@@ -6,7 +6,8 @@
 # - Ask proceed/cancel
 
 import sys, subprocess
-from package_managers.pip_manager import pip_dry_run
+from package_managers.pip_manager import parse_pip_dependencies
+from package_managers.npm_manager import parse_npm_dependencies
 
 def main():
     args = sys.argv[1:]
@@ -16,16 +17,18 @@ def main():
         return
     
     manager = args[0]
-    real_args = args[1:]
+    action = args[1]
+    real_args = args[2:]
 
-    print(f"Scanning command: {manager} {' '.join(real_args)}")
-    command = f"{manager} {' '.join(real_args)}"
+    print(f"Scanning command: {manager} {action} {' '.join(real_args)}")
 
-    if manager == 'pip':
-        pip_dry_run(command)
+    if manager == 'pip' and action == 'install':
+        report = parse_pip_dependencies(real_args, action)
 
-    elif manager == 'npm':
-        pass
+    elif manager == 'npm' and action == 'install':
+        parse_npm_dependencies(real_args, action)
 
+    print(report)
+    
 if __name__ == "__main__":
     main()
