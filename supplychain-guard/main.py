@@ -26,7 +26,7 @@ def main():
         report = parse_pip_dependencies(real_args, action)
 
     elif manager == 'npm' and action == 'install':
-        parse_npm_dependencies(real_args, action)
+        report = parse_npm_dependencies(real_args, action)
 
     print(report)
     

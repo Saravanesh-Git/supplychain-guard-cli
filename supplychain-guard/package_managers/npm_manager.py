@@ -5,7 +5,7 @@
 
 import subprocess, sys, json
 
-def parse_pip_dependencies(real_args, action):
+def parse_npm_dependencies(real_args, action):
     print(real_args)
     cmd = [
         "npm",
