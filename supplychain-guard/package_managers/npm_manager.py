@@ -25,6 +25,7 @@ def parse_npm_dependencies(real_args, action):
             check=False,
         )
 
+        print("Result:", result)
         if result.returncode != 0:
             raise RuntimeError(
                 f"pip resolve failed:\n{result.stderr.strip()}"
@@ -34,25 +35,26 @@ def parse_npm_dependencies(real_args, action):
             raise RuntimeError("pip did not return a JSON report.")
         
         report = json.loads(result.stdout)
-        packages = []
+        # packages = []
+        # print(report)
 
-        for item in report.get("install", []):
-            metadata = item.get("metadata", {})
+        # for item in report.get("install", []):
+        #     metadata = item.get("metadata", {})
 
-            name = metadata.get("name")
-            version = metadata.get("version")
+        #     name = metadata.get("name")
+        #     version = metadata.get("version")
 
-            if not name or not version:
-                continue
+        #     if not name or not version:
+        #         continue
 
-            packages.append({
-                "ecosystem": "PyPI",
-                "name": name,
-                "version": version,
-                "direct": item.get("requested", False),
-            })
+        #     packages.append({
+        #         "ecosystem": "PyPI",
+        #         "name": name,
+        #         "version": version,
+        #         "direct": item.get("requested", False),
+        #     })
 
-        return packages
+        # return packages
     except json.JSONDecodeError:
         raise RuntimeError(
             f"Failed to parse pip JSON report.\nOutput was:\n{result.stdout}"

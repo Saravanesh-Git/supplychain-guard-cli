@@ -37,7 +37,10 @@ def parse_pip_dependencies(real_args, action):
         if not result.stdout.strip():
             raise RuntimeError("pip did not return a JSON report.")
         
+        print("Before Loads:", result.stdout)
+        print("Type:", type(result.stdout))
         report = json.loads(result.stdout)
+        print("After Loads:", report)
         packages = []
 
         for item in report.get("install", []):
